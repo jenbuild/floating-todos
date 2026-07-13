@@ -4,4 +4,9 @@ export interface Todo {
 	completed: boolean;
 	createdAt: number;
 	bodyId: string;
+
+	x: number;
+	y: number;
+	rotation: number;
+	width: number;
 }

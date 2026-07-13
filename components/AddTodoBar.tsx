@@ -7,7 +7,6 @@ import { useState } from "react";
 const AddTodoBar = () => {
     const [title, setTitle] = useState("");
 
-    const todos = useTodoStore((state) => state.todos);
     const addTodo = useTodoStore((state) => state.addTodo);
 
     const handleAdd = () => {
@@ -18,8 +17,6 @@ const AddTodoBar = () => {
         addTodo(trimmed)
         setTitle("");
     }
-
-    console.log(todos)
 
     return (
         <div className="fixed inset-x-0 bottom-8 z-[9999] flex justify-center pointer-events-none">

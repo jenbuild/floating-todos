@@ -6,6 +6,7 @@ interface TodoStore {
 	todos: Todo[];
 
 	addTodo: (title: string) => void;
+	toggleTodo: (id: string) => void;
 }
 
 export const useTodoStore = create<TodoStore>()(
@@ -22,8 +23,22 @@ export const useTodoStore = create<TodoStore>()(
 							title,
 							completed: false,
 							createdAt: Date.now(),
+
+							x: Math.random() * (window.innerWidth - 260),
+							y: Math.random() * (window.innerHeight - 250),
+							rotation: Math.random() * 30 - 15,
+							width: 220 + Math.random() * 60,
 						},
 					],
+				})),
+
+			toggleTodo: (id) =>
+				set((state) => ({
+					todos: state.todos.map((todo) =>
+						todo.id === id
+							? { ...todo, completed: !todo.completed }
+							: todo,
+					),
 				})),
 		}),
 		{
