@@ -1,5 +1,10 @@
+import AddTodoBar from "@/components/AddTodoBar";
+
 export default function Home() {
   return (
-    <div>Floating Todos App</div>
+    <div>
+
+      <AddTodoBar />
+    </div>
   );
 }
