@@ -1,7 +1,7 @@
 "use client";
 
 import { celebrationEmojis } from "@/lib/emoji";
-import physicsManager from '@/physics/manager';
+import physicsRenderer from "@/physics/renderer";
 import { useTodoStore } from "@/stores/todoStore";
 import { EmojiParticle } from "@/types/effects";
 import { Todo } from "@/types/todo";
@@ -68,24 +68,32 @@ const TodoCard = ({ todo }: TodoCardProps) => {
     }
 
     useEffect(() => {
-        let frame: number;
+        // let frame: number;
 
-        const animate = () => {
-            const body = physicsManager.getBody(todo.id);
+        // const animate = () => {
+        //     const body = physicsManager.getBody(todo.id);
 
-            if (body && ref.current) {
-                ref.current.style.transform = `
-                    translate(${body.position.x}px, ${body.position.y}px)
-                    translate(-50%, -50%)
-                    rotate(${body.angle}rad)
-                `;
-            }
-            frame = requestAnimationFrame(animate);
-        };
+        //     if (body && ref.current) {
+        //         ref.current.style.transform = `
+        //             translate(${body.position.x}px, ${body.position.y}px)
+        //             translate(-50%, -50%)
+        //             rotate(${body.angle}rad)
+        //         `;
+        //     }
+        //     frame = requestAnimationFrame(animate);
+        // };
 
-        animate();
+        // animate();
 
-        return () => cancelAnimationFrame(frame);
+        // return () => cancelAnimationFrame(frame);
+
+        if (ref.current) {
+            physicsRenderer.register(todo.id, ref.current);
+        }
+
+        return () => {
+            physicsRenderer.unregister(todo.id);
+        }
     }, [todo.id])
 
     return (
