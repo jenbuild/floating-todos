@@ -18,9 +18,9 @@ class PhysicsManager {
 			width,
 			height,
 			{
-				restitution: 1,
+				restitution: 0.65,
 				friction: 0,
-				frictionAir: 0,
+				frictionAir: 0.015,
 				collisionFilter: {
 					category: CARD_CATEGORY,
 					mask: WALL_CATEGORY,
