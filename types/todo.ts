@@ -5,8 +5,5 @@ export interface Todo {
 	createdAt: number;
 	bodyId: string;
 
-	x: number;
-	y: number;
-	rotation: number;
 	width: number;
 }
