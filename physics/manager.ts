@@ -1,8 +1,15 @@
 import Matter from "matter-js";
+import { CARD_CATEGORY, WALL_CATEGORY } from "./walls";
 import world from "./world";
 
+type PhysicsItem = {
+	body: Matter.Body;
+	zIndex: number;
+	layer: number;
+};
+
 class PhysicsManager {
-	private bodies = new Map<string, Matter.Body>();
+	private items = new Map<string, PhysicsItem>();
 
 	createTodo(id: string, width = 200, height = 90) {
 		const body = Matter.Bodies.rectangle(
@@ -14,8 +21,22 @@ class PhysicsManager {
 				restitution: 1,
 				friction: 0,
 				frictionAir: 0,
+				collisionFilter: {
+					category: CARD_CATEGORY,
+					mask: WALL_CATEGORY,
+				},
 			},
 		);
+
+		const layer = Math.floor(Math.random() * 5) + 1;
+
+		const zIndex = layer * 10;
+
+		this.items.set(id, {
+			body,
+			layer,
+			zIndex,
+		});
 
 		Matter.World.add(world, body);
 
@@ -23,22 +44,28 @@ class PhysicsManager {
 			x: (Math.random() - 0.5) * 6,
 			y: (Math.random() - 0.5) * 6,
 		});
-
-		this.bodies.set(id, body);
 	}
 
 	getBody(id: string) {
-		return this.bodies.get(id);
+		return this.items.get(id)?.body;
+	}
+
+	getItem(id: string) {
+		return this.items.get(id);
+	}
+
+	getZIndex(id: string) {
+		return this.items.get(id)?.zIndex ?? 1;
 	}
 
 	removeTodo(id: string) {
-		const body = this.bodies.get(id);
+		const item = this.items.get(id);
 
-		if (!body) return;
+		if (!item) return;
 
-		Matter.World.remove(world, body);
+		Matter.World.remove(world, item.body);
 
-		this.bodies.delete(id);
+		this.items.delete(id);
 	}
 }
 
