@@ -68,25 +68,6 @@ const TodoCard = ({ todo }: TodoCardProps) => {
     }
 
     useEffect(() => {
-        // let frame: number;
-
-        // const animate = () => {
-        //     const body = physicsManager.getBody(todo.id);
-
-        //     if (body && ref.current) {
-        //         ref.current.style.transform = `
-        //             translate(${body.position.x}px, ${body.position.y}px)
-        //             translate(-50%, -50%)
-        //             rotate(${body.angle}rad)
-        //         `;
-        //     }
-        //     frame = requestAnimationFrame(animate);
-        // };
-
-        // animate();
-
-        // return () => cancelAnimationFrame(frame);
-
         if (ref.current) {
             physicsRenderer.register(todo.id, ref.current);
         }
@@ -100,7 +81,8 @@ const TodoCard = ({ todo }: TodoCardProps) => {
         <>
             <div
                 ref={ref}
-                className="absolute w-64 rounded-2xl bg-white py-3 px-4 shadow-xl border border-neutral-200 select-none"
+                data-todo-id={todo.id}
+                className="absolute w-64 rounded-2xl bg-white py-3 px-4 shadow-xl border border-neutral-200 select-none touch-none cursor-grab active:cursor-grabbing"
                 style={{
 
                     width: todo.width

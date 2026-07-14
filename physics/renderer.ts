@@ -1,8 +1,13 @@
+type RenderItem = {
+	id: string;
+	element: HTMLDivElement;
+};
+
 class PhysicsRenderer {
-	private elements = new Map<string, HTMLDivElement>();
+	private elements = new Map<string, RenderItem>();
 
 	register(id: string, element: HTMLDivElement) {
-		this.elements.set(id, element);
+		this.elements.set(id, { id, element });
 	}
 
 	unregister(id: string) {
