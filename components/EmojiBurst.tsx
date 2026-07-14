@@ -35,6 +35,7 @@ const EmojiBurst = ({ particles }: Props) => {
                         ["--end-x" as any]: `${p.endX}px`,
                         ["--travel" as any]: `${p.travel}px`,
                         ["--rotation" as any]: `${p.rotation}deg`,
+                        zIndex: 9999,
                     }}
                 >
                     {p.emoji}
