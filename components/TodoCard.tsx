@@ -1,10 +1,11 @@
 "use client";
 
 import { celebrationEmojis } from "@/lib/emoji";
+import physicsManager from '@/physics/manager';
 import { useTodoStore } from "@/stores/todoStore";
 import { EmojiParticle } from "@/types/effects";
 import { Todo } from "@/types/todo";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EmojiBurst from "./EmojiBurst";
 
 interface TodoCardProps {
@@ -12,6 +13,7 @@ interface TodoCardProps {
 }
 
 const TodoCard = ({ todo }: TodoCardProps) => {
+    const ref = useRef<HTMLDivElement>(null);
     const checkboxRef = useRef<HTMLInputElement>(null);
     const [particles, setParticles] = useState<EmojiParticle[]>([]);
 
@@ -65,14 +67,34 @@ const TodoCard = ({ todo }: TodoCardProps) => {
         toggleTodo(todo.id)
     }
 
+    useEffect(() => {
+        let frame: number;
+
+        const animate = () => {
+            const body = physicsManager.getBody(todo.id);
+
+            if (body && ref.current) {
+                ref.current.style.transform = `
+                    translate(${body.position.x}px, ${body.position.y}px)
+                    translate(-50%, -50%)
+                    rotate(${body.angle}rad)
+                `;
+            }
+            frame = requestAnimationFrame(animate);
+        };
+
+        animate();
+
+        return () => cancelAnimationFrame(frame);
+    }, [todo.id])
+
     return (
         <>
             <div
+                ref={ref}
                 className="absolute w-64 rounded-2xl bg-white py-3 px-4 shadow-xl border border-neutral-200 select-none"
                 style={{
-                    left: todo.x,
-                    top: todo.y,
-                    transform: `rotate(${todo.rotation}deg)`,
+
                     width: todo.width
                 }}
             >
