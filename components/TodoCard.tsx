@@ -1,6 +1,7 @@
 "use client";
 
 import { celebrationEmojis } from "@/lib/emoji";
+import physicsManager from '@/physics/manager';
 import physicsRenderer from "@/physics/renderer";
 import { useTodoStore } from "@/stores/todoStore";
 import { EmojiParticle } from "@/types/effects";
@@ -84,7 +85,7 @@ const TodoCard = ({ todo }: TodoCardProps) => {
                 data-todo-id={todo.id}
                 className="absolute w-64 rounded-2xl bg-white py-3 px-4 shadow-xl border border-neutral-200 select-none touch-none cursor-grab active:cursor-grabbing"
                 style={{
-
+                    zIndex: physicsManager.getZIndex(todo.id),
                     width: todo.width
                 }}
             >

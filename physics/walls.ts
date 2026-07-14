@@ -1,6 +1,9 @@
 import Matter from "matter-js";
 import world from "./world";
 
+export const WALL_CATEGORY = 0x0001;
+export const CARD_CATEGORY = 0x0002;
+
 let walls: Matter.Body[] = [];
 
 export function createWalls(width: number, height: number) {
@@ -14,6 +17,9 @@ export function createWalls(width: number, height: number) {
 		// Top
 		Matter.Bodies.rectangle(width / 2, -thickness / 2, width, thickness, {
 			isStatic: true,
+			collisionFilter: {
+				category: WALL_CATEGORY,
+			},
 		}),
 
 		// Bottom
@@ -22,12 +28,20 @@ export function createWalls(width: number, height: number) {
 			height + thickness / 2,
 			width,
 			thickness,
-			{ isStatic: true },
+			{
+				isStatic: true,
+				collisionFilter: {
+					category: WALL_CATEGORY,
+				},
+			},
 		),
 
 		// Left
 		Matter.Bodies.rectangle(-thickness / 2, height / 2, thickness, height, {
 			isStatic: true,
+			collisionFilter: {
+				category: WALL_CATEGORY,
+			},
 		}),
 
 		// Right
@@ -36,7 +50,12 @@ export function createWalls(width: number, height: number) {
 			height / 2,
 			thickness,
 			height,
-			{ isStatic: true },
+			{
+				isStatic: true,
+				collisionFilter: {
+					category: WALL_CATEGORY,
+				},
+			},
 		),
 	];
 
