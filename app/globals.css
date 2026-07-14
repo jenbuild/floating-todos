@@ -1,1 +1,33 @@
 @import "tailwindcss";
+
+@keyframes emojiBurst {
+	0% {
+		transform: translate(-50%, 0) rotate(0deg) scale(0.8);
+	}
+
+	15% {
+		transform: translate(calc(-50% + var(--start-x)), var(--start-y))
+			rotate(calc(var(--rotation) * 0.2)) scale(1);
+	}
+
+	25% {
+		transform: translate(calc(-50% + var(--start-x)), var(--start-y))
+			rotate(calc(var(--rotation) * 0.2)) scale(1);
+	}
+
+	55% {
+		transform: none;
+	}
+
+	100% {
+		transform: translate(
+				calc(-50% + var(--end-x)),
+				calc(-1 * var(--travel))
+			)
+			rotate(var(--rotation)) scale(1.2);
+	}
+}
+
+.animate-emoji {
+	animation: emojiBurst 20s ease-in forwards;
+}
