@@ -6,7 +6,13 @@ type PhysicsItem = {
 	body: Matter.Body;
 	zIndex: number;
 	layer: number;
+
+	nextImpulse: number;
 };
+
+function randomBetween(min: number, max: number) {
+	return Math.random() * (max - min) + min;
+}
 
 class PhysicsManager {
 	private items = new Map<string, PhysicsItem>();
@@ -36,6 +42,8 @@ class PhysicsManager {
 			body,
 			layer,
 			zIndex,
+
+			nextImpulse: performance.now() + randomBetween(2000, 7000),
 		});
 
 		Matter.World.add(world, body);
@@ -66,6 +74,23 @@ class PhysicsManager {
 		Matter.World.remove(world, item.body);
 
 		this.items.delete(id);
+	}
+
+	update() {
+		const now = performance.now();
+
+		this.items.forEach((item) => {
+			if (now < item.nextImpulse) {
+				return;
+			}
+
+			Matter.Body.applyForce(item.body, item.body.position, {
+				x: (Math.random() - 0.5) * 0.03,
+				y: (Math.random() - 0.5) * 0.03,
+			});
+
+			item.nextImpulse = now + randomBetween(3000, 7000);
+		});
 	}
 }
 

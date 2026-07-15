@@ -59,7 +59,7 @@ const PhysicsCanvas = () => {
 
         let animationFrame: number;
         const animate = () => {
-
+            physicsManager.update();
             physicsRenderer.getElements().forEach((element, id) => {
 
                 const body = physicsManager.getBody(id);
